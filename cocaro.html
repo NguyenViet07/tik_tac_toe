@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form name="formCal">
+        <caption> Tik Tak Toe </caption>
+        <br>
+        <br>
+        <div id="people_name"></div>
+        <br>
+        <table>
+
+            <tr>
+                <td> <input type="button" id="nbr00" value="." onclick="play(0,0)" /> </td>
+                <td> <input type="button" id="nbr01" value="." onclick="play(0,1)" /> </td>
+                <td> <input type="button" id="nbr02" value="." onclick="play(0,2)" /> </td>
+            </tr>
+            <tr>
+                <td> <input type="button" id="nbr10" value="." onclick="play(1,0)" /> </td>
+                <td> <input type="button" id="nbr11" value="." onclick="play(1,1)" /> </td>
+                <td> <input type="button" id="nbr12" value="." onclick="play(1,2)" /> </td>
+            </tr>
+            <tr>
+                <td> <input type="button" id="nbr20" value="." onclick="play(2,0)" /> </td>
+                <td> <input type="button" id="nbr21" value="." onclick="play(2,1)" /> </td>
+                <td> <input type="button" id="nbr22" value="." onclick="play(2,2)" /> </td>
+            </tr>
+
+        </table>
+    </form>
+    <script>
+        var p_num;
+        var mtrx;
+        initData();
+        function play(i,j){
+            console.log(i+" "+j+" "+mtrx[i][j]);
+            if(mtrx[i][j] != '.'){
+                alert("Đã có người điền vào đây");
+            } else {
+                mtrx[i][j] = p_num;
+                key = "nbr"+i+j;
+                document.getElementById(key).value = mtrx[i][j];
+                if(checkMtrx() === 2){
+                    console.log("Winner");
+                    if(p_num === 'X'){
+                        alert("Nguời thứ nhất chiến thắng");
+                    } else {
+                        alert("Nguời thứ hai chiến thắng");
+                    }
+                    initData();
+                } else if(checkMtrx() === 1){
+                    alert("Hết trò chơi. Không có ai chiến thắng!");
+                    initData();
+                } else {
+                    if(p_num === 'O'){
+                        p_num = 'X';
+                        document.getElementById("people_name").innerHTML = "Người thứ nhất: "+p_num;
+                    } else {
+                        p_num = 'O';
+                        document.getElementById("people_name").innerHTML = "Người thứ hai: "+p_num;
+                    }
+                }
+            }
+        }
+        // 2: Có người chiến thắng.
+        // 1: Hết trò chơi. Không ai chiến thắng.
+        // 0: Chơi tiếp.
+
+        function checkMtrx(){
+            if(mtrx[0][0] !== '.' && mtrx[0][0] === mtrx[0][1] && mtrx[0][0] === mtrx[0][2])
+                return 2;
+            if(mtrx[1][0] !== '.' && mtrx[1][0] === mtrx[1][1] && mtrx[1][0] === mtrx[1][2])
+                return 2;
+            if(mtrx[2][0] !== '.' && mtrx[2][0] === mtrx[2][1] && mtrx[2][0] === mtrx[2][2])
+                return 2;
+
+            if(mtrx[0][0] !== '.' && mtrx[0][0] === mtrx[1][0] && mtrx[0][0] === mtrx[2][0])
+                return 2;
+            if(mtrx[0][1] !== '.' && mtrx[0][1] === mtrx[1][1] && mtrx[0][1] === mtrx[2][1])
+                return 2;
+            if(mtrx[0][2] !== '.' && mtrx[0][2] === mtrx[1][2] && mtrx[0][2] === mtrx[2][2])
+                return 2;
+
+            if(mtrx[0][0] !== '.' && mtrx[0][0] === mtrx[1][1] && mtrx[0][0] === mtrx[2][2])
+                return 2;
+            if(mtrx[0][2] !== '.' && mtrx[0][2] === mtrx[1][1] && mtrx[2][0] === mtrx[0][2])
+                return 2;
+
+            for(i=0;i<3;i++){
+                for(j=0;j<3;j++){
+                    if(mtrx[i][j] === '.')
+                        return 0;
+                }
+            }
+            return 1;
+        }
+        function initData(){
+            console.log("Clear All data");
+            p_num = 'X';
+            document.getElementById("people_name").innerHTML = "Người thứ nhất: "+p_num;
+            mtrx = new Array();
+            for(i=0;i<3;i++){
+                mtrx[i] = new Array();
+                for(j=0;j<3;j++){
+                    mtrx[i][j] = '.';
+                    key = "nbr"+i+j;
+                    document.getElementById(key).value = mtrx[i][j];
+                }
+            }
+        }
+    </script>
+</body>
+</html>
